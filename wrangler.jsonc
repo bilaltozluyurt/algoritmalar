@@ -1,13 +1,13 @@
 {
-  // Cloudflare'deki Worker adıyla AYNI olmalı.
-  "name": "algoritma-antrenmani",
+  
+  "name": "algoritmalar",
   "main": "worker/index.js",
   // Bugünden ileri bir tarih yazmayın.
   "compatibility_date": "2025-09-01",
   "assets": {
     "directory": "./public",
     "binding": "ASSETS",
-    // Her istek önce Worker'a gelir: oturum yoksa içerik sunulmaz.
+    
     "run_worker_first": true,
     "html_handling": "none",
     "not_found_handling": "none"
@@ -15,15 +15,14 @@
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "algoritma-antrenmani",
-      // Cloudflare → D1 → veritabanınız → Database ID. Gizli bilgi değildir.
-      "database_id": "00000000-0000-0000-0000-000000000000"
+      "database_name": "algoritmalar",
+            "database_id": "40c206ab-af78-4972-b5f3-1de39ced353a"
     }
   ],
-  // Çözümlerin commitleneceği repo (gizli değil). Token ise Secret: GITHUB_TOKEN
+  
   "vars": {
     "GITHUB_REPO": "bilaltozluyurt/algoritmalar"
-    // Varsayılan dal dışında bir dala yazmak için: "GITHUB_DAL": "main"
+    
   },
   "observability": { "enabled": true }
 }
