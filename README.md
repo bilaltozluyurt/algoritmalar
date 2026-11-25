@@ -11,7 +11,7 @@
 ## Kurulum (adım adım)
 
 ### 1. GitHub
-1. GitHub'da yeni bir **public** repo aç (örn. `algoritma-antrenmani`).
+1. Repo: **`bilaltozluyurt/algoritmalar`** (public). Uygulama kodu ve `solutions/` klasöründeki çözümler aynı repoda durur.
 2. Bu klasördeki tüm dosyaları repo **köküne** yükle (alt klasöre koyma). Kökte `wrangler.jsonc`, `package.json`, `worker/`, `public/` görünmeli.
    - `.gitignore` da gelsin; `node_modules/`, `.wrangler/`, `.dev.vars` repoya girmez.
 
@@ -30,6 +30,7 @@ Tablolar elle kurulmaz; Worker ilk istekte kendisi oluşturur.
 3. Proje adı: **`algoritma-antrenmani`** (`wrangler.jsonc` içindeki `"name"` ile aynı olmalı).
 4. Build command: boş bırak. Deploy command: `npx wrangler deploy`. Root directory: `/` (boş).
 5. **Deploy**. Bundan sonra her push otomatik yayınlanır.
+6. Worker → Settings → **Build** → **Build watch paths**: Include `*`, Exclude `solutions/*`. Böylece web sayfasından atılan çözüm commit'leri gereksiz yere yeniden yayın başlatmaz.
 
 ### 4. Kurulum kodu (Secret)
 1. Worker → **Settings → Variables and Secrets** (Build bölümündeki değil!).
