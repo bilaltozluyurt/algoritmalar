@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#F3ECE0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Algoritma">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/icon-180.png">
+<link rel="icon" type="image/png" href="/icon-192.png">
+<title>Günlük Algoritma Antrenmanı</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Tek tema (açık): bej zemin, gece mavisi metin, antrasit kod; dikkat kutuları kehribar */
+  --bg: #F3ECE0;          /* bej zemin */
+  --paper: #FBF7F0;       /* kart zemini */
+  --line: #DCCBB1;        /* açık kahve çizgi */
+  --ink: #15233B;         /* gece mavisi metin */
+  --ink-soft: #4A4F57;    /* antrasit ikincil metin */
+  --code-bg: #EFE5D4;     /* kod zemini */
+  --navy-tint: #E3E8F0;   /* "mülakatta söyle" kutusu */
+  --warn: #A35F00;        /* dikkat vurgusu */
+  --warn-tint: #F8E6C8;
+  --good: #2F6B4F;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.65;
+}
+main { max-width: 760px; margin: 0 auto; padding: 28px 18px 64px; display: grid; gap: 28px; }
+h1, h2, h3 { text-wrap: balance; line-height: 1.25; margin: 0; }
+h1 { font-size: 30px; font-weight: 700; }
+h2 { font-size: 23px; font-weight: 700; }
+h3 { font-size: 18px; font-weight: 600; margin-top: 6px; }
+p { margin: 0; }
+.lead { color: var(--ink-soft); }
+header { display: grid; gap: 12px; }
+nav { display: flex; flex-wrap: wrap; gap: 8px; }
+nav a {
+  font-size: 14px; color: var(--ink); text-decoration: none;
+  background: var(--paper); border: 1px solid var(--line);
+  padding: 4px 10px; border-radius: 999px;
+}
+nav a:hover, nav a:focus-visible { border-color: var(--ink); outline: none; }
+section {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 22px 20px;
+  display: grid; gap: 14px;
+  scroll-margin-top: 12px;
+}
+.num { color: var(--warn); font-variant-numeric: tabular-nums; margin-right: 6px; }
+.basit {
+  border-left: 4px solid var(--ink);
+  padding: 4px 0 4px 14px;
+  font-size: 18px;
+}
+.basit b { font-weight: 600; }
+pre {
+  margin: 0; background: var(--code-bg); border: 1px solid var(--line);
+  border-radius: 10px; padding: 14px 16px; overflow-x: auto;
+  font-family: var(--font-mono); font-size: 14px; line-height: 1.6; color: var(--ink);
+}
+code { font-family: var(--font-mono); font-size: 0.9em; background: var(--code-bg); padding: 1px 5px; border-radius: 4px; }
+pre code { background: none; padding: 0; font-size: inherit; }
+.c { color: #6B6152; }  /* yorum satırı */
+.say {
+  background: var(--navy-tint); border-radius: 10px; padding: 12px 14px;
+}
+.say::before { content: "Mülakatta böyle söyle"; display: block; font-size: 13px; font-weight: 600; letter-spacing: .02em; color: var(--ink); margin-bottom: 4px; }
+.dikkat {
+  background: var(--warn-tint); border-radius: 10px; padding: 12px 14px;
+}
+.dikkat::before { content: "Dikkat, sık yapılan hata"; display: block; font-size: 13px; font-weight: 600; color: var(--warn); margin-bottom: 4px; }
+ul, ol { margin: 0; padding-left: 22px; display: grid; gap: 6px; }
+.tablo { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-weight: 600; background: var(--code-bg); }
+td { font-variant-numeric: tabular-nums; }
+.iyi { color: var(--good); font-weight: 600; }
+.kotu { color: var(--warn); font-weight: 600; }
+
+/* Görseller */
+.gorsel { display: grid; gap: 8px; }
+.gorsel .etiket { font-size: 13px; color: var(--ink-soft); }
+.hucreler { display: flex; gap: 4px; flex-wrap: wrap; }
+.hucre {
+  width: 46px; text-align: center; border: 1.5px solid var(--ink); border-radius: 6px;
+  background: var(--paper); font-family: var(--font-mono); font-size: 15px; padding: 6px 0 2px;
+}
+.hucre small { display: block; font-size: 11px; color: var(--ink-soft); border-top: 1px solid var(--line); margin-top: 4px; }
+.hucre.bos { border-style: dashed; color: var(--ink-soft); }
+.yigin { display: flex; flex-direction: column; gap: 4px; width: 140px; }
+.yigin .hucre { width: 100%; }
+.yigin .ust { background: var(--warn-tint); border-color: var(--warn); }
+.ikili { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+.kutu { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; background: var(--bg); display: grid; gap: 8px; }
+.kutu h4 { margin: 0; font-size: 15px; font-weight: 600; }
+.ok { font-family: var(--font-mono); color: var(--ink-soft); }
+.kova { display: grid; grid-template-columns: 70px 1fr; gap: 4px 10px; font-family: var(--font-mono); font-size: 14px; }
+.kova span:nth-child(odd) { color: var(--ink-soft); }
+.bigo { display: grid; gap: 6px; }
+.bigo-satir { display: grid; grid-template-columns: 92px 1fr 120px; align-items: center; gap: 10px; font-size: 14px; }
+.bar { height: 12px; border-radius: 6px; background: var(--ink); }
+details { border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; background: var(--bg); }
+summary { cursor: pointer; font-weight: 600; }
+summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 4px; }
+details p { margin-top: 8px; }
+footer { color: var(--ink-soft); font-size: 14px; text-align: center; }
+@media (max-width: 420px) {
+  body { font-size: 16px; }
+  h1 { font-size: 26px; }
+  section { padding: 18px 14px; }
+  .bigo-satir { grid-template-columns: 78px 1fr 92px; font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+html { scroll-behavior: smooth; }
+.yapilacak { list-style: none; padding-left: 0; gap: 10px; }
+.yapilacak label { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; cursor: pointer; }
+.yapilacak input { width: 18px; height: 18px; margin-top: 4px; accent-color: var(--ink); }
+.yapilacak input:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.yapilacak input:checked + * , .yapilacak label:has(input:checked) { color: var(--ink-soft); }
+</style>
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<main>
+<header>
+  <h1>Günlük Algoritma Antrenmanı</h1>
+  <p class="lead">Temelden ileri seviyeye 13 kademe ve 120 soru. Her gün 20–30 dakika, telefonda düşünerek. Kademeler bir önceki kademenin üzerine kurulu, sırayla ilerle. Kutucukları işaretledikçe ilerlemen hesabına kaydedilir; telefonda ve bilgisayarda aynı görünür.</p>
+  <nav aria-label="Bölümler">
+    <a href="#rutin">Günlük rutin</a>
+    <a href="#gonder">Bana gönderme</a>
+    <a href="#kalip">Kalıp tablosu</a>
+    <a href="#k0">Kademe 0</a>
+    <a href="#k1">Kademe 1</a>
+    <a href="#k2">Kademe 2</a>
+    <a href="#k3">Kademe 3</a>
+    <a href="#k4">Kademe 4</a>
+    <a href="#k5">Kademe 5</a>
+    <a href="#k6">Kademe 6</a>
+    <a href="#k7">Kademe 7</a>
+    <a href="#k8">Kademe 8</a>
+    <a href="#k9">Kademe 9</a>
+    <a href="#k10">Kademe 10</a>
+    <a href="#k11">Kademe 11</a>
+    <a href="#k12">Kademe 12</a>
+  </nav>
+</header>
+<section id="rutin">
+  <h2>Günlük rutin (20–30 dakika)</h2>
+  <p class="basit"><b>Kural:</b> Her gün bir soru. Kod yazamadığın günlerde bile düşünüp yaklaşımını yazabilirsin. Satranç ve Duolingo gibi: önemli olan zincirin kopmaması.</p>
+  <ol>
+    <li><b>Anla (3 dk):</b> Soruyu kendi cümlelerinle yaz. Kendin 2 örnek üret, biri kenar durumu olsun (boş, tek eleman, negatif).</li>
+    <li><b>Brute force (5 dk):</b> Aklına gelen ilk çözümü yaz ve Big O'sunu söyle. Çalışan yavaş bir çözüm, olmayan hızlı bir çözümden iyidir.</li>
+    <li><b>İyileştir (10 dk):</b> Aşağıdaki kalıp tablosuna bak. "Bu soruda hangi ifade geçiyor, hangi araç?" İyileştirilmiş yaklaşımı ve Big O'sunu yaz.</li>
+    <li><b>Yaz (10 dk):</b> Telefonun not uygulamasında C# ya da pseudo-code olarak yaz. Kendi örneğinle satır satır takip et.</li>
+    <li><b>Gönder:</b> Aşağıdaki formatla bana at, mülakatçı gözüyle değerlendireyim.</li>
+  </ol>
+  <p><b>Takıldığında:</b> 15 dakika uğraş, sonra sorunun altındaki ipucunu aç. İpucundan sonra da çözemezsen bana sor. Çözümü doğrudan isteme, birlikte adım adım çözeriz.</p>
+  <p><b>Tekrar günü:</b> Her 7. gün yeni soru çözme. O hafta zorlandığın bir soruyu bakmadan baştan çöz. Tekrar edilmeyen soru unutulur.</p>
+  <p><b>Bilgisayar başındaysan:</b> O günün sorusunu derleyicide yaz ve kendi testlerinle çalıştır.</p>
+</section>
+<section id="gonder">
+  <h2>Bana gönderme formatı</h2>
+  <pre><code>Gün 14 · K2 · Anagram mı?
+Yaklaşım: Birinci kelimede harfleri sayıp ikincide düşüyorum,
+          sonunda tüm sayaçlar 0 olmalı.
+Big O: O(n) zaman, O(1) bellek (alfabe sabit)
+Kod:
+...
+Takıldığım yer: (varsa)</code></pre>
+</section>
+<section id="kalip">
+  <h2>Kalıp tablosu: soruda bunu görürsen…</h2>
+  <div class="tablo"><table>
+    <thead><tr><th>Sorudaki ifade</th><th>Araç</th><th>Kademe</th></tr></thead>
+    <tbody>
+      <tr><td>"tekrar eden", "daha önce gördüm mü", "kaç kez", "eşini bul"</td><td>HashSet / Dictionary</td><td>2</td></tr>
+      <tr><td>"sıralı dizi", "yerinde", "baştan ve sondan", "palindrome"</td><td>Two pointers</td><td>3</td></tr>
+      <tr><td>"ardışık alt dizi", "en uzun / en kısa alt string", "k uzunluklu"</td><td>Sliding window</td><td>4</td></tr>
+      <tr><td>"parantez", "geri al", "bir sonraki büyük eleman"</td><td>Stack / monotonic stack</td><td>5</td></tr>
+      <tr><td>"sıralı dizide ara", "koşulu sağlayan ilk / en küçük değer", O(log n) istenirse</td><td>Binary search</td><td>6</td></tr>
+      <tr><td>"tüm kombinasyonlar / alt kümeler / permütasyonlar"</td><td>Recursion + backtracking</td><td>7</td></tr>
+      <tr><td>"en büyük / en küçük k tane", "öncelik"</td><td>PriorityQueue (heap)</td><td>10</td></tr>
+      <tr><td>"aralıklar", "toplantılar", "çakışma"</td><td>Sırala + tek geçiş</td><td>10</td></tr>
+      <tr><td>"seviye seviye", "en kısa yol (ağırlıksız)", "grid'de yol"</td><td>BFS</td><td>9, 11</td></tr>
+      <tr><td>"bağlı mı", "kaç parça / ada", "ön koşul / sıralama"</td><td>DFS / topolojik sıralama</td><td>11</td></tr>
+      <tr><td>"kaç farklı yolla", "en az / en çok", "alt problemler tekrar ediyor"</td><td>Dynamic programming</td><td>12</td></tr>
+    </tbody>
+  </table></div>
+</section>
+<section id="k0">
+  <h2>Kademe 0 · Isınma: döngü, koşul, dizi</h2>
+  <p class="lead">Önerilen zaman: 1. ay · 10 soru</p>
+  <p class="basit">Amaç algoritmadan çok elini kodlamaya alıştırmak. Her soruda tek bir döngü ve birkaç değişken yeterli. Kolay görünseler de <b>kenar durumlarını</b> (boş dizi, tek eleman, negatif sayı) düşünmeyi burada alışkanlık hâline getir.</p>
+  <h3>Şablon</h3>
+  <pre><code>int toplam = 0;
+foreach (int x in dizi)
+{
+    if (kosul(x)) toplam += x;   // tek geçiş, O(n)
+}</code></pre>
+  <h3>Sorular</h3>
+  <ul class="yapilacak">
+    <li><label><input type="checkbox" id="k0-1"> <span><b>1. En büyük ve en küçük</b> · Bir dizideki en büyük ve en küçük sayıyı tek döngüde bul.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[4, -2, 9, 0] → 9, -2</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>İki değişkeni dizinin ilk elemanıyla başlat, 0 ile değil. Neden?</p></details></li>
+    <li><label><input type="checkbox" id="k0-2"> <span><b>2. Ortalama</b> · Dizinin ortalamasını decimal olarak döndür. Boş dizide ne olmalı?<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[1, 2, 4] → 2,33</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>int bölmesi tuzağına dikkat: 7 / 2 = 3.</p></details></li>
+    <li><label><input type="checkbox" id="k0-3"> <span><b>3. Çift sayıları say</b> · Dizideki çift sayıların adedini döndür.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[1, 2, 3, 4, 6] → 3</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>x % 2 == 0. Negatif sayılarda da çalışıyor mu?</p></details></li>
+    <li><label><input type="checkbox" id="k0-4"> <span><b>4. FizzBuzz</b> · 1'den n'e kadar: 3'e bölünüyorsa Fizz, 5'e bölünüyorsa Buzz, ikisine de bölünüyorsa FizzBuzz, değilse sayının kendisi.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">15 → FizzBuzz</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Kontrol sırası önemli: önce hangisini kontrol etmelisin?</p></details></li>
+    <li><label><input type="checkbox" id="k0-5"> <span><b>5. Rakamlar toplamı</b> · Bir tam sayının rakamlarının toplamını string'e çevirmeden bul.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">4825 → 19</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>n % 10 son rakamı verir, n / 10 son rakamı atar.</p></details></li>
+    <li><label><input type="checkbox" id="k0-6"> <span><b>6. Sayıyı ters çevir</b> · Bir tam sayıyı ters çevir.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">1234 → 4321</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Bir önceki sorudaki iki işlem + sonuc = sonuc * 10 + rakam.</p></details></li>
+    <li><label><input type="checkbox" id="k0-7"> <span><b>7. Asal mı?</b> · Bir sayının asal olup olmadığını bul.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">29 → true, 21 → false</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Kareköküne kadar denemek yeter. Neden? 1 ve 2'yi ayrı düşün.</p></details></li>
+    <li><label><input type="checkbox" id="k0-8"> <span><b>8. Faktöriyel ve Fibonacci</b> · n! ve n'inci Fibonacci sayısını döngüyle hesapla.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">5! = 120, Fib(7) = 13</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Fibonacci için sadece son iki değeri tutman yeterli. Büyük n'de int taşar mı?</p></details></li>
+    <li><label><input type="checkbox" id="k0-9"> <span><b>9. Sesli harfleri say</b> · Bir metindeki sesli harfleri say (Türkçe: a, e, ı, i, o, ö, u, ü).<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">"merhaba" → 3</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Sesli harfleri bir HashSet&lt;char&gt; içinde tutarsan kontrol O(1) olur.</p></details></li>
+    <li><label><input type="checkbox" id="k0-10"> <span><b>10. Kelime sayısı</b> · Bir cümledeki kelime sayısını bul. Arada birden fazla boşluk olabilir.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">"  bugün   hava güzel " → 3</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Split kullanmadan dene: boşluktan harfe geçişleri say.</p></details></li>
+  </ul>
+</section>
+<section id="k1">
+  <h2>Kademe 1 · Diziler ve string'ler</h2>
+  <p class="lead">Önerilen zaman: 1. ay · 12 soru</p>
+  <p class="basit">Dizilerde indeksle oynamak, yerinde (in-place) değişiklik yapmak ve string'i karakter karakter işlemek. Mülakatlarda en sık gelen soru tipleri bu kademeden çıkar. Her soruda önce <b>brute force</b> çözümü ve onun Big O'sunu söyle, sonra iyileştirmeye çalış.</p>
+  <h3>Şablon</h3>
+  <pre><code>// yerinde işlem: ayrı bir &quot;yazma&quot; indisi tut
+int yaz = 0;
+for (int oku = 0; oku &lt; d.Length; oku++)
+{
+    if (tutulacakMi(d[oku])) d[yaz++] = d[oku];
+}</code></pre>
+  <h3>Sorular</h3>
+  <ul class="yapilacak">
+    <li><label><input type="checkbox" id="k1-1"> <span><b>1. İkinci en büyük farklı sayı</b> · Zaten çözdün. Bakmadan, 5 dakikada tekrar yaz.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[5, 12, 8, 21, 21] → 12</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Yeni en büyük bulunca eskisi ikinci olur.</p></details></li>
+    <li><label><input type="checkbox" id="k1-2"> <span><b>2. Sıfırları sona taşı</b> · Diziyi yerinde değiştir: sıfır olmayanların sırası korunsun, sıfırlar sona gitsin.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[0, 1, 0, 3, 12] → [1, 3, 12, 0, 0]</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Yukarıdaki 'yazma indisi' şablonu. Sonra kalan yerleri 0'la doldur.</p></details></li>
+    <li><label><input type="checkbox" id="k1-3"> <span><b>3. Diziyi k adım döndür</b> · Diziyi sağa doğru k adım döndür.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[1,2,3,4,5], k=2 → [4,5,1,2,3]</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>k, dizi uzunluğundan büyükse ne olur? (k % n). Bonus: üç kez ters çevirerek O(1) bellekle.</p></details></li>
+    <li><label><input type="checkbox" id="k1-4"> <span><b>4. Kelimeleri ters çevir</b> · Cümledeki kelimelerin sırasını ters çevir.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">"ben kod yazarım" → "yazarım kod ben"</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Önce Split + Reverse + Join. Sonra bunları kullanmadan.</p></details></li>
+    <li><label><input type="checkbox" id="k1-5"> <span><b>5. String sıkıştırma</b> · Ardışık tekrar eden karakterleri harf + sayı olarak yaz.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">"aaabccdd" → "a3b1c2d2"</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Bir önceki karakteri ve sayacı tut. Döngü bitince son grubu eklemeyi unutma. StringBuilder kullan.</p></details></li>
+    <li><label><input type="checkbox" id="k1-6"> <span><b>6. En uzun kelime</b> · Cümledeki en uzun kelimeyi bul. Eşitlikte ilki.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">"ben bugün yürüdüm" → "yürüdüm"</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Tek geçiş: mevcut kelimenin başlangıcını ve uzunluğunu takip et.</p></details></li>
+    <li><label><input type="checkbox" id="k1-7"> <span><b>7. Tek kez geçen</b> · Dizide her sayı iki kez, sadece biri bir kez geçiyor. Onu bul.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[4, 1, 2, 1, 2] → 4</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Önce HashSet ile. Sonra ek bellek kullanmadan: XOR (a ^ a = 0, a ^ 0 = a).</p></details></li>
+    <li><label><input type="checkbox" id="k1-8"> <span><b>8. Eksik sayı</b> · 0..n arasından bir sayı eksik. Bul.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[3, 0, 1] → 2</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>0..n toplamı n(n+1)/2. Gerçek toplamla farkı.</p></details></li>
+    <li><label><input type="checkbox" id="k1-9"> <span><b>9. Matris transpozu</b> · n×m bir matrisin transpozunu döndür.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[[1,2,3],[4,5,6]] → [[1,4],[2,5],[3,6]]</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>sonuc[j, i] = m[i, j]. Sonucun boyutu m×n.</p></details></li>
+    <li><label><input type="checkbox" id="k1-10"> <span><b>10. Satır ve sütun toplamları</b> · Bir matrisin her satırının ve her sütununun toplamını bul.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[[1,2],[3,4]] → satır [3,7], sütun [4,6]</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Tek bir çift döngüde iki diziyi birlikte doldurabilirsin.</p></details></li>
+    <li><label><input type="checkbox" id="k1-11"> <span><b>11. Büyük harf, küçük harf, rakam</b> · Bir şifrenin en az bir büyük harf, bir küçük harf, bir rakam içerip içermediğini ve en az 8 karakter olup olmadığını kontrol et.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">"Abc12345" → true</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>char.IsUpper, char.IsLower, char.IsDigit. Hepsini tek geçişte bul.</p></details></li>
+    <li><label><input type="checkbox" id="k1-12"> <span><b>12. Dizi eşit mi?</b> · İki dizi aynı elemanları aynı sırayla mı içeriyor? SequenceEqual kullanmadan.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[1,2,3] ve [1,2,3] → true</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Önce uzunluk kontrolü. Erken çıkış (return false) yap.</p></details></li>
+  </ul>
+</section>
+<section id="k2">
+  <h2>Kademe 2 · Hashing: Dictionary ve HashSet</h2>
+  <p class="lead">Önerilen zaman: 1. ay · 12 soru</p>
+  <p class="basit">Mülakatlarda en çok kullanılan araç. "Daha önce gördüm mü?", "kaç kez geçiyor?", "eşini bul" ifadeleri görünce aklına ilk Dictionary ve HashSet gelmeli. Bunlar çoğu O(n²) çözümü O(n)'e indirir. Bedeli O(n) ek bellektir, bunu mülakatta kendin söyle.</p>
+  <h3>Şablon</h3>
+  <pre><code>var sayac = new Dictionary&lt;int, int&gt;();
+foreach (int x in d)
+    sayac[x] = sayac.GetValueOrDefault(x) + 1;
+
+var gordum = new HashSet&lt;int&gt;();
+foreach (int x in d)
+    if (!gordum.Add(x)) { /* x tekrar ediyor */ }</code></pre>
+  <h3>Sorular</h3>
+  <ul class="yapilacak">
+    <li><label><input type="checkbox" id="k2-1"> <span><b>1. Tekrar edenleri bul</b> · Program.cs B5–B6'yı bitir, sonra bu soruyu bakmadan tekrar yaz.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[4, 2, 7, 2, 4] → {2, 4}</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Add false dönerse tekrar.</p></details></li>
+    <li><label><input type="checkbox" id="k2-2"> <span><b>2. Tekrar var mı?</b> · Dizide herhangi bir eleman iki kez geçiyor mu?<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[1, 2, 3, 1] → true</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>İlk tekrarı bulduğun anda dön.</p></details></li>
+    <li><label><input type="checkbox" id="k2-3"> <span><b>3. Two Sum</b> · Toplamı hedefe eşit iki elemanın indeksini bul.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[2, 7, 11, 15], 9 → [0, 1]</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Her sayıda 'hedef − sayı'yı daha önce gördün mü?</p></details></li>
+    <li><label><input type="checkbox" id="k2-4"> <span><b>4. Anagram mı?</b> · İki kelime birbirinin anagramı mı? Sort kullanmadan.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">"kale", "elak" → true</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Birinde say (+1), diğerinde düş (−1). Sonunda hepsi 0 mı?</p></details></li>
+    <li><label><input type="checkbox" id="k2-5"> <span><b>5. Tekrar etmeyen ilk karakter</b> · Metinde sadece bir kez geçen ilk karakteri bul.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">"aabcbd" → 'c'</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>İki geçiş: önce say, sonra sırayla bak.</p></details></li>
+    <li><label><input type="checkbox" id="k2-6"> <span><b>6. En çok tekrar eden</b> · Dizide en çok geçen elemanı bul. MaxBy kullanmadan.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[4, 2, 4, 2, 7, 4] → 4</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Sayarken en büyük sayacı ve onun elemanını da güncel tut.</p></details></li>
+    <li><label><input type="checkbox" id="k2-7"> <span><b>7. Kelime frekansı</b> · Bir metindeki her kelimenin kaç kez geçtiğini harf duyarsız olarak bul.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">"Ali ali Veli" → ali:2, veli:1</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>StringComparer.OrdinalIgnoreCase ile Dictionary.</p></details></li>
+    <li><label><input type="checkbox" id="k2-8"> <span><b>8. Majority element</b> · n/2'den fazla geçen elemanı bul (her zaman var).<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[2, 2, 1, 1, 2] → 2</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Dictionary ile O(n) bellek. Bonus: Boyer-Moore oylama, O(1) bellek.</p></details></li>
+    <li><label><input type="checkbox" id="k2-9"> <span><b>9. İzomorfik string</b> · Birinci string'in harfleri tutarlı biçimde değiştirilerek ikinciye dönüştürülebilir mi?<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">"egg", "add" → true · "foo", "bar" → false</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>İki yönlü eşleme gerekir: iki Dictionary.</p></details></li>
+    <li><label><input type="checkbox" id="k2-10"> <span><b>10. Anagram grupları</b> · Kelimeleri anagram gruplarına ayır.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[kale, elak, ekmek, leka] → [[kale, elak, leka], [ekmek]]</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Harfleri sıralanmış hâli anahtar olsun.</p></details></li>
+    <li><label><input type="checkbox" id="k2-11"> <span><b>11. Toplamı 0 olan alt dizi var mı?</b> · Ardışık elemanlarının toplamı 0 olan bir alt dizi var mı?<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[4, 2, −3, 1, 6] → true (2, −3, 1)</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Önek toplamları (prefix sum). Aynı önek toplamı iki kez görülürse arası 0'dır.</p></details></li>
+    <li><label><input type="checkbox" id="k2-12"> <span><b>12. En uzun ardışık sayı dizisi</b> · Sırasız bir dizide, ardışık sayılardan oluşan en uzun dizinin uzunluğu.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[100, 4, 200, 1, 3, 2] → 4 (1, 2, 3, 4)</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>HashSet'e koy. Sadece x−1'i olmayan sayılardan saymaya başla. O(n).</p></details></li>
+  </ul>
+</section>
+<section id="k3">
+  <h2>Kademe 3 · Two pointers</h2>
+  <p class="lead">Önerilen zaman: 2. ay · 10 soru</p>
+  <p class="basit">İki indisi aynı anda hareket ettirerek iç içe döngüyü tek geçişe indirmek. Üç kalıbı var: uçlardan ortaya, iki dizide birer indis, aynı yönde hızlı-yavaş. Soruda <b>"sıralı dizi"</b>, <b>"yerinde"</b> ya da <b>"ek bellek kullanmadan"</b> geçiyorsa düşün.</p>
+  <h3>Şablon</h3>
+  <pre><code>int sol = 0, sag = d.Length - 1;
+while (sol &lt; sag)
+{
+    if (kosul) sol++;
+    else sag--;
+}</code></pre>
+  <h3>Sorular</h3>
+  <ul class="yapilacak">
+    <li><label><input type="checkbox" id="k3-1"> <span><b>1. Palindrome</b> · Zaten çözdün. Bakmadan, harf duyarsız ve sadece harfleri dikkate alarak yaz.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">"Ey Edip, Adana'da pide ye" → true</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>char.IsLetter olmayanları atla: indisi ilerlet ama karşılaştırma.</p></details></li>
+    <li><label><input type="checkbox" id="k3-2"> <span><b>2. Sıralı dizide two sum</b> · Sıralı dizide toplamı hedefe eşit iki eleman. O(1) ek bellek.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[1, 3, 4, 6, 9], 10 → [0, 4]</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Toplam küçükse sol++, büyükse sag--.</p></details></li>
+    <li><label><input type="checkbox" id="k3-3"> <span><b>3. İki sıralı diziyi birleştir</b> · Zaten çözdün. Bakmadan tekrar yaz.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[1, 4, 7] + [2, 3, 8] → [1, 2, 3, 4, 7, 8]</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>i, j, k ve üç aşama.</p></details></li>
+    <li><label><input type="checkbox" id="k3-4"> <span><b>4. Sıralı diziden tekrarları sil</b> · Yerinde sil, benzersiz eleman sayısını döndür.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[1, 1, 2, 2, 3] → 3, dizi [1, 2, 3, …]</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Hızlı indis tarar, yavaş indis temiz kısmın sonunu tutar.</p></details></li>
+    <li><label><input type="checkbox" id="k3-5"> <span><b>5. Sıralı karelerin dizisi</b> · Sıralı bir dizinin elemanlarının karelerini sıralı olarak döndür.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[−4, −1, 0, 3, 10] → [0, 1, 9, 16, 100]</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>En büyük kare iki uçtan birindedir. Sonuç dizisini sondan doldur.</p></details></li>
+    <li><label><input type="checkbox" id="k3-6"> <span><b>6. Alt dizi mi? (subsequence)</b> · s, t'nin bir alt dizisi mi (harfler sırasıyla var mı)?<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">"abc", "ahbgdc" → true</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Her string'de bir indis. Eşleşince s'nin indisini ilerlet.</p></details></li>
+    <li><label><input type="checkbox" id="k3-7"> <span><b>7. En çok su tutan kap</b> · Yükseklik dizisinde, iki çubuk arasında tutulabilecek en fazla su.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[1, 8, 6, 2, 5, 4, 8, 3, 7] → 49</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Uçlardan başla. Hangi tarafı içeri almalısın? Kısa olanı. Neden?</p></details></li>
+    <li><label><input type="checkbox" id="k3-8"> <span><b>8. 3Sum (orta)</b> · Toplamı 0 olan tüm benzersiz üçlüleri bul.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[−1, 0, 1, 2, −1, −4] → [[−1, −1, 2], [−1, 0, 1]]</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Sırala. Her eleman için kalan kısımda sıralı two sum. Tekrarları atla. O(n²).</p></details></li>
+    <li><label><input type="checkbox" id="k3-9"> <span><b>9. Diziyi ters çevir</b> · Zaten çözdün. Bakmadan, 3 dakikada.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[1, 2, 3] → [3, 2, 1]</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Swap + sol++, sag--.</p></details></li>
+    <li><label><input type="checkbox" id="k3-10"> <span><b>10. Linked list'in ortası</b> · Kademe 8'e hazırlık: bir dizide yavaş 1, hızlı 2 adım ilerleyerek ortayı bul.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[1, 2, 3, 4, 5] → 3</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Hızlı sona varınca yavaş ortadadır.</p></details></li>
+  </ul>
+</section>
+<section id="k4">
+  <h2>Kademe 4 · Sliding window</h2>
+  <p class="lead">Önerilen zaman: 2. ay · 8 soru</p>
+  <p class="basit">Ardışık bir aralık (pencere) üzerinde çalışıp pencereyi kaydırarak her seferinde baştan hesaplamaktan kaçınmak. Soruda <b>"ardışık alt dizi"</b>, <b>"en uzun / en kısa alt string"</b>, <b>"k uzunluklu"</b> geçiyorsa düşün. İki tür var: sabit boyutlu ve değişken boyutlu pencere.</p>
+  <h3>Şablon</h3>
+  <pre><code>int sol = 0;
+for (int sag = 0; sag &lt; d.Length; sag++)
+{
+    // d[sag]&#x27;ı pencereye ekle
+    while (pencereBozuk)
+    {
+        // d[sol]&#x27;u pencereden çıkar
+        sol++;
+    }
+    // pencere geçerli: cevabı güncelle (sag - sol + 1)
+}</code></pre>
+  <h3>Sorular</h3>
+  <ul class="yapilacak">
+    <li><label><input type="checkbox" id="k4-1"> <span><b>1. k uzunluklu en büyük toplam</b> · Ardışık k elemanın en büyük toplamını bul.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[2, 1, 5, 1, 3, 2], k=3 → 9</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>İlk k'nın toplamı, sonra her adımda +yeni −eski. O(n).</p></details></li>
+    <li><label><input type="checkbox" id="k4-2"> <span><b>2. k uzunluklu en büyük ortalama</b> · Aynı soru, ortalama decimal olarak.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[1, 12, −5, −6, 50, 3], k=4 → 12,75</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Toplamı bul, en sonda k'ya böl.</p></details></li>
+    <li><label><input type="checkbox" id="k4-3"> <span><b>3. Tekrarsız en uzun alt string</b> · Tekrar eden karakter içermeyen en uzun alt string'in uzunluğu.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">"abcabcbb" → 3</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Penceredeki karakterleri HashSet'te tut. Tekrar gelince soldan çıkar.</p></details></li>
+    <li><label><input type="checkbox" id="k4-4"> <span><b>4. Toplamı ≥ hedef en kısa alt dizi</b> · Pozitif sayılarda, toplamı hedefe eşit ya da büyük en kısa ardışık alt dizinin uzunluğu.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[2, 3, 1, 2, 4, 3], 7 → 2</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Toplam hedefe ulaşınca soldan daraltarak en kısasını ara.</p></details></li>
+    <li><label><input type="checkbox" id="k4-5"> <span><b>5. En çok k farklı karakter</b> · En fazla k farklı karakter içeren en uzun alt string'in uzunluğu.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">"eceba", k=2 → 3</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Penceredeki karakter sayaçları için Dictionary. Count > k ise daralt.</p></details></li>
+    <li><label><input type="checkbox" id="k4-6"> <span><b>6. Ardışık 1'ler (k çevirme)</b> · 0 ve 1'lerden oluşan dizide en fazla k tane 0'ı 1 yaparak elde edilebilecek en uzun ardışık 1'ler.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[1,1,1,0,0,0,1,1,1,1,0], k=2 → 6</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Penceredeki 0 sayısı k'yı aşarsa daralt.</p></details></li>
+    <li><label><input type="checkbox" id="k4-7"> <span><b>7. Permütasyon içeriyor mu?</b> · s2, s1'in herhangi bir permütasyonunu içeriyor mu?<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">"ab", "eidbaooo" → true</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>s1 uzunluğunda sabit pencere. Harf sayaçlarını karşılaştır.</p></details></li>
+    <li><label><input type="checkbox" id="k4-8"> <span><b>8. Anagram başlangıçları</b> · s içinde p'nin anagramı olan tüm alt stringlerin başlangıç indislerini bul.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">"cbaebabacd", "abc" → [0, 6]</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Bir önceki sorunun aynısı, ama tüm eşleşmeleri topla.</p></details></li>
+  </ul>
+</section>
+<section id="k5">
+  <h2>Kademe 5 · Stack ve Queue</h2>
+  <p class="lead">Önerilen zaman: 2. ay · 8 soru</p>
+  <p class="basit">Sıranın önemli olduğu sorular. Stack: "son açılan ilk kapanır" (parantez, geri al, iç içe yapılar). <b>Monotonic stack</b>: "bir sonraki daha büyük eleman" tipi sorularda O(n²)'yi O(n)'e indirir. Queue: sırayla işleme ve BFS.</p>
+  <h3>Şablon</h3>
+  <pre><code>var st = new Stack&lt;int&gt;();   // monotonic stack: indisleri tutar
+for (int i = 0; i &lt; d.Length; i++)
+{
+    while (st.Count &gt; 0 &amp;&amp; d[i] &gt; d[st.Peek()])
+    {
+        int j = st.Pop();   // d[j]&#x27;nin &quot;bir sonraki büyüğü&quot; d[i]
+    }
+    st.Push(i);
+}</code></pre>
+  <h3>Sorular</h3>
+  <ul class="yapilacak">
+    <li><label><input type="checkbox" id="k5-1"> <span><b>1. Geçerli parantez</b> · Program.cs B11. (), [], {} desteklenmeli.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">"({[]})" → true</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Açılanı Push, kapanınca Pop edip eşini kontrol et. Sonda boş olmalı.</p></details></li>
+    <li><label><input type="checkbox" id="k5-2"> <span><b>2. Min stack</b> · Push, Pop, Top ve GetMin işlemlerini O(1) yapan bir stack sınıfı yaz.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">Push 3, 5, 2 → GetMin 2 · Pop → GetMin 3</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>İkinci bir stack'te o ana kadarki minimumları tut.</p></details></li>
+    <li><label><input type="checkbox" id="k5-3"> <span><b>3. İki stack ile queue</b> · Program.cs B13.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">Enqueue 1, 2 · Dequeue → 1</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Çıkarılacak yığın boşsa diğerini tamamen ona boşalt.</p></details></li>
+    <li><label><input type="checkbox" id="k5-4"> <span><b>4. Backspace karşılaştırma</b> · '#' bir önceki karakteri siler. Sonuçta iki string eşit mi?<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">"ab#c", "ad#c" → true</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Stack ile kolay. Bonus: sondan geriye iki indisle, O(1) bellek.</p></details></li>
+    <li><label><input type="checkbox" id="k5-5"> <span><b>5. Ters Polonya notasyonu</b> · ["2", "1", "+", "3", "*"] gibi bir ifadeyi hesapla.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">→ 9  ((2 + 1) × 3)</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Sayıyı Push et. İşlem gelince iki sayı Pop et, sonucu Push et. Sıraya dikkat: önce çıkan ikinci operand.</p></details></li>
+    <li><label><input type="checkbox" id="k5-6"> <span><b>6. Sonraki büyük eleman</b> · Her eleman için sağındaki ilk büyük elemanı bul, yoksa −1.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[2, 1, 2, 4, 3] → [4, 2, 4, −1, −1]</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Yukarıdaki monotonic stack şablonu.</p></details></li>
+    <li><label><input type="checkbox" id="k5-7"> <span><b>7. Günlük sıcaklıklar</b> · Her gün için daha sıcak bir güne kaç gün beklenmesi gerektiğini bul.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[73, 74, 75, 71, 69, 72, 76, 73] → [1, 1, 4, 2, 1, 1, 0, 0]</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Monotonic stack, ama sonuç i − j.</p></details></li>
+    <li><label><input type="checkbox" id="k5-8"> <span><b>8. Yıldızları sil</b> · Her '*' kendisini ve solundaki en yakın karakteri siler.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">"leet**cod*e" → "lecoe"</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Stack ya da StringBuilder'ı stack gibi kullan.</p></details></li>
+  </ul>
+</section>
+<section id="k6">
+  <h2>Kademe 6 · Binary search</h2>
+  <p class="lead">Önerilen zaman: 3. ay · 8 soru</p>
+  <p class="basit">Sıralı (ya da bir şekilde "monoton") bir aralıkta her adımda yarısını eleyerek O(log n)'de aramak. Sadece "dizide eleman bul" değil, "koşulu sağlayan ilk değeri bul" sorularında da kullanılır. En sık hata: sonsuz döngü ve bir fazla/eksik indis.</p>
+  <h3>Şablon</h3>
+  <pre><code>int sol = 0, sag = d.Length - 1;
+while (sol &lt;= sag)
+{
+    int orta = sol + (sag - sol) / 2;
+    if (d[orta] == hedef) return orta;
+    if (d[orta] &lt; hedef) sol = orta + 1;
+    else sag = orta - 1;
+}
+return -1;</code></pre>
+  <h3>Sorular</h3>
+  <ul class="yapilacak">
+    <li><label><input type="checkbox" id="k6-1"> <span><b>1. Klasik binary search</b> · Program.cs B3. Bakmadan, 5 dakikada.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[1, 3, 5, 7, 9], 7 → 3</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>sol &lt;= sag, orta + 1 / orta − 1.</p></details></li>
+    <li><label><input type="checkbox" id="k6-2"> <span><b>2. Ekleme konumu</b> · Hedef varsa indisini, yoksa sıralı kalması için ekleneceği indisi döndür.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[1, 3, 5, 6], 2 → 1</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Döngü bitince sol tam olarak ekleme yeridir.</p></details></li>
+    <li><label><input type="checkbox" id="k6-3"> <span><b>3. İlk ve son konum</b> · Sıralı dizide hedefin ilk ve son indisini bul.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[5, 7, 7, 8, 8, 10], 8 → [3, 4]</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>İki ayrı binary search. Bulunca durma: ilk için sola, son için sağa devam et.</p></details></li>
+    <li><label><input type="checkbox" id="k6-4"> <span><b>4. Tam sayı karekök</b> · Math.Sqrt kullanmadan bir sayının karekökünün tam kısmını bul.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">8 → 2</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>0..x aralığında, orta × orta ≤ x olan en büyük orta. Taşmaya dikkat: long kullan.</p></details></li>
+    <li><label><input type="checkbox" id="k6-5"> <span><b>5. Döndürülmüş dizide minimum</b> · Sıralı bir dizi bir noktadan döndürülmüş. En küçük elemanı bul.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[4, 5, 6, 7, 0, 1, 2] → 0</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Ortayı sağ uçla karşılaştır. Hangi yarı sıralı?</p></details></li>
+    <li><label><input type="checkbox" id="k6-6"> <span><b>6. Döndürülmüş dizide arama</b> · Aynı dizide hedefi O(log n)'de ara.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[4, 5, 6, 7, 0, 1, 2], 0 → 4</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Her adımda iki yarıdan biri sıralıdır. Hedef o sıralı yarıda mı?</p></details></li>
+    <li><label><input type="checkbox" id="k6-7"> <span><b>7. Sıralı matriste arama</b> · Her satırı sıralı ve her satırın ilk elemanı bir öncekinin sonundan büyük bir matriste arama.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[[1,3,5],[10,11,16]], 11 → true</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Matrisi tek bir sıralı dizi gibi düşün: indis → (i / sütun, i % sütun).</p></details></li>
+    <li><label><input type="checkbox" id="k6-8"> <span><b>8. Tepe elemanı</b> · Komşularından büyük herhangi bir elemanın indisini O(log n)'de bul.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[1, 2, 3, 1] → 2</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>d[orta] &lt; d[orta+1] ise tepe sağdadır.</p></details></li>
+  </ul>
+</section>
+<section id="k7">
+  <h2>Kademe 7 · Recursion ve sıralama</h2>
+  <p class="lead">Önerilen zaman: 3. ay · 8 soru</p>
+  <p class="basit">Recursion: problemi kendisinin daha küçük bir hâline indirgemek. Her recursive fonksiyonun iki parçası vardır: <b>durma koşulu (base case)</b> ve <b>küçültme adımı</b>. Sıralama algoritmalarını bilmek, hem mülakat sorusu olarak hem de merge sort ve quick sort üzerinden "böl ve yönet" mantığını anlamak için önemli.</p>
+  <h3>Şablon</h3>
+  <pre><code>int Faktoriyel(int n)
+{
+    if (n &lt;= 1) return 1;            // durma koşulu
+    return n * Faktoriyel(n - 1);    // küçültme adımı
+}</code></pre>
+  <h3>Sorular</h3>
+  <ul class="yapilacak">
+    <li><label><input type="checkbox" id="k7-1"> <span><b>1. Recursive faktöriyel ve toplam</b> · n! ve 1'den n'e kadar toplamı recursion ile yaz. Çok büyük n'de ne olur?<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">5 → 120 ve 15</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Durma koşulunu unutursan StackOverflowException.</p></details></li>
+    <li><label><input type="checkbox" id="k7-2"> <span><b>2. Fibonacci + memoization</b> · Fibonacci'yi önce düz recursion ile, sonra Dictionary ile hesaplananları saklayarak yaz.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">Fib(40)</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Düz hâli O(2ⁿ), memo'lu hâli O(n). Farkı süre ölçerek gör.</p></details></li>
+    <li><label><input type="checkbox" id="k7-3"> <span><b>3. Hızlı üs alma</b> · xⁿ'yi O(log n)'de hesapla.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">2¹⁰ → 1024</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>xⁿ = (x^(n/2))². n tekse bir x daha çarp.</p></details></li>
+    <li><label><input type="checkbox" id="k7-4"> <span><b>4. Alt kümeler</b> · Bir kümenin tüm alt kümelerini üret.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[1, 2, 3] → [], [1], [2], [1,2], [3], …  (8 tane)</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Her eleman için iki seçenek: al ya da alma. Backtracking.</p></details></li>
+    <li><label><input type="checkbox" id="k7-5"> <span><b>5. Permütasyonlar</b> · Bir string'in tüm permütasyonlarını üret.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">"abc" → abc, acb, bac, bca, cab, cba</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Her adımda kullanılmamış bir harf seç, recursion, sonra geri al.</p></details></li>
+    <li><label><input type="checkbox" id="k7-6"> <span><b>6. Bubble, selection, insertion sort</b> · Üçünü de yaz. Hangisi neredeyse sıralı bir dizide hızlıdır?<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[5, 2, 4, 1] → [1, 2, 4, 5]</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Üçü de O(n²). Insertion sort neredeyse sıralı dizide O(n)'e yaklaşır.</p></details></li>
+    <li><label><input type="checkbox" id="k7-7"> <span><b>7. Merge sort</b> · Böl, sırala, birleştir. Birleştirme adımını zaten biliyorsun (Kademe 3).<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[38, 27, 43, 3] → [3, 27, 38, 43]</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>O(n log n), her durumda. Ek bellek O(n).</p></details></li>
+    <li><label><input type="checkbox" id="k7-8"> <span><b>8. Quick sort</b> · Bir pivot seç, küçükleri sola, büyükleri sağa al, iki tarafı recursion ile sırala.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[3, 6, 1, 8, 2] → [1, 2, 3, 6, 8]</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Ortalama O(n log n), en kötü O(n²). En kötü durum ne zaman olur?</p></details></li>
+  </ul>
+</section>
+<section id="k8">
+  <h2>Kademe 8 · Linked list</h2>
+  <p class="lead">Önerilen zaman: 3. ay · 8 soru</p>
+  <p class="basit">Kendi <code>Node</code> sınıfınla çalışırsın. Zorluk algoritmada değil, <b>işaretçileri doğru sırayla değiştirmekte</b>. Her soruyu önce kağıda kutular ve oklar çizerek çöz. Sık kullanılan teknikler: sahte baş düğüm (dummy head) ve hızlı-yavaş işaretçi.</p>
+  <h3>Şablon</h3>
+  <pre><code>public class Node { public int Val; public Node? Next; }
+
+var dummy = new Node();        // sahte baş: kenar durumlarını yok eder
+Node? kuyruk = dummy;
+// ... kuyruk.Next = yeni; kuyruk = kuyruk.Next;
+return dummy.Next;</code></pre>
+  <h3>Sorular</h3>
+  <ul class="yapilacak">
+    <li><label><input type="checkbox" id="k8-1"> <span><b>1. Listeyi ters çevir</b> · Program.cs B14. Bakmadan, çizerek.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">1→2→3 → 3→2→1</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>onceki, simdiki, sonraki. Okları tek tek çevir.</p></details></li>
+    <li><label><input type="checkbox" id="k8-2"> <span><b>2. Ortadaki düğüm</b> · Hızlı-yavaş işaretçi ile.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">1→2→3→4→5 → 3</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>hizli?.Next != null.</p></details></li>
+    <li><label><input type="checkbox" id="k8-3"> <span><b>3. Döngü var mı?</b> · Listede bir döngü olup olmadığını O(1) bellekle bul.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">3→2→0→−4→(2'ye dön) → true</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Floyd: hızlı ve yavaş bir gün buluşursa döngü var.</p></details></li>
+    <li><label><input type="checkbox" id="k8-4"> <span><b>4. İki sıralı listeyi birleştir</b> · İki sıralı linked list'i tek bir sıralı listede birleştir.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">1→2→4 + 1→3→4 → 1→1→2→3→4→4</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Dummy head + iki işaretçi. Kademe 3'teki dizi versiyonunun aynısı.</p></details></li>
+    <li><label><input type="checkbox" id="k8-5"> <span><b>5. Sondan n'inci düğümü sil</b> · Tek geçişte sil.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">1→2→3→4→5, n=2 → 1→2→3→5</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Hızlı işaretçiyi n adım öne gönder, sonra ikisini birlikte ilerlet.</p></details></li>
+    <li><label><input type="checkbox" id="k8-6"> <span><b>6. Sıralı listeden tekrarları sil</b> · Her elemandan bir tane kalsın.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">1→1→2→3→3 → 1→2→3</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Bir sonraki aynıysa onu atla: simdiki.Next = simdiki.Next.Next.</p></details></li>
+    <li><label><input type="checkbox" id="k8-7"> <span><b>7. Palindrome list</b> · Linked list palindrome mu? O(1) bellek.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">1→2→2→1 → true</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Ortayı bul, ikinci yarıyı ters çevir, karşılaştır.</p></details></li>
+    <li><label><input type="checkbox" id="k8-8"> <span><b>8. İki listenin kesişimi</b> · İki listenin birleştiği ilk düğümü bul.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">A: 4→1→8→4, B: 5→6→1→8→4 → 8</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>İki işaretçi. Biri sona gelince diğer listenin başına geçsin. Neden buluşurlar?</p></details></li>
+  </ul>
+</section>
+<section id="k9">
+  <h2>Kademe 9 · Ağaçlar</h2>
+  <p class="lead">Önerilen zaman: 4. ay · 10 soru</p>
+  <p class="basit">Ağaç soruları neredeyse her zaman recursion ile çözülür: "sol alt ağaç için çöz, sağ alt ağaç için çöz, ikisini birleştir." Seviye seviye gezmek gereken sorularda ise Queue ile BFS kullanılır. BST'de (ikili arama ağacı) her düğümün solundakiler küçük, sağındakiler büyüktür.</p>
+  <h3>Şablon</h3>
+  <pre><code>public class TreeNode { public int Val; public TreeNode? Left, Right; }
+
+int Derinlik(TreeNode? n)
+{
+    if (n == null) return 0;
+    return 1 + Math.Max(Derinlik(n.Left), Derinlik(n.Right));
+}</code></pre>
+  <h3>Sorular</h3>
+  <ul class="yapilacak">
+    <li><label><input type="checkbox" id="k9-1"> <span><b>1. Ağacın derinliği</b> · Kökten en uzak yaprağa kadar düğüm sayısı.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[3, 9, 20, null, null, 15, 7] → 3</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Yukarıdaki şablon.</p></details></li>
+    <li><label><input type="checkbox" id="k9-2"> <span><b>2. Pre-, in-, post-order gezme</b> · Üç sıralamayı da recursion ile yaz. BST'de in-order ne verir?</span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Fark sadece 'düğümü işle' satırının yerinde.</p></details></li>
+    <li><label><input type="checkbox" id="k9-3"> <span><b>3. Seviye seviye gezme (BFS)</b> · Ağacı seviye seviye listele.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">→ [[3], [9, 20], [15, 7]]</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Queue. Her turda o anki Count kadar eleman çıkar: o bir seviyedir.</p></details></li>
+    <li><label><input type="checkbox" id="k9-4"> <span><b>4. Aynı ağaç mı?</b> · İki ağaç yapı ve değer olarak aynı mı?</span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>İkisi de null → true, biri null → false, sonra değer ve iki alt ağaç.</p></details></li>
+    <li><label><input type="checkbox" id="k9-5"> <span><b>5. Ağacı aynala (invert)</b> · Her düğümün sol ve sağ çocuklarını yer değiştir.</span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Swap + iki alt ağaç için recursion. 4 satır.</p></details></li>
+    <li><label><input type="checkbox" id="k9-6"> <span><b>6. Simetrik mi?</b> · Ağaç kendi ayna görüntüsü mü?</span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Yardımcı fonksiyon: Ayna(a, b) → a.Left ile b.Right, a.Right ile b.Left.</p></details></li>
+    <li><label><input type="checkbox" id="k9-7"> <span><b>7. BST'de arama ve ekleme</b> · BST'de bir değeri ara ve yeni bir değer ekle.</span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Küçükse sola, büyükse sağa. O(yükseklik).</p></details></li>
+    <li><label><input type="checkbox" id="k9-8"> <span><b>8. Geçerli BST mi?</b> · Bir ağacın geçerli bir BST olup olmadığını kontrol et.</span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Sadece çocuklara bakmak yetmez. Her düğüme izin verilen (min, max) aralığını aşağı taşı.</p></details></li>
+    <li><label><input type="checkbox" id="k9-9"> <span><b>9. BST'de ortak ata</b> · BST'de iki düğümün en düşük ortak atasını bul.</span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>İkisi de küçükse sola, ikisi de büyükse sağa, değilse buradasın.</p></details></li>
+    <li><label><input type="checkbox" id="k9-10"> <span><b>10. Yol toplamı</b> · Kökten bir yaprağa giden ve toplamı hedefe eşit bir yol var mı?</span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Her adımda hedeften düğüm değerini çıkar. Yaprakta 0 mı?</p></details></li>
+  </ul>
+</section>
+<section id="k10">
+  <h2>Kademe 10 · Heap, aralıklar ve greedy</h2>
+  <p class="lead">Önerilen zaman: 4. ay · 8 soru</p>
+  <p class="basit"><b>Heap (PriorityQueue)</b>: "en büyük / en küçük k tane" sorularında sıralamadan daha hızlı. <b>Aralık soruları</b>: önce başlangıca göre sırala, sonra tek geçiş. <b>Greedy</b>: her adımda o an en iyi görünen seçimi yapmak. Her zaman doğru sonuç vermez, neden doğru olduğunu açıklayabilmen gerekir.</p>
+  <h3>Şablon</h3>
+  <pre><code>var pq = new PriorityQueue&lt;int, int&gt;();   // min-heap
+foreach (int x in d)
+{
+    pq.Enqueue(x, x);
+    if (pq.Count &gt; k) pq.Dequeue();         // en küçüğü at
+}
+// pq&#x27;da en büyük k eleman kaldı</code></pre>
+  <h3>Sorular</h3>
+  <ul class="yapilacak">
+    <li><label><input type="checkbox" id="k10-1"> <span><b>1. k'ıncı en büyük</b> · Program.cs B12.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[3, 2, 1, 5, 6, 4], k=2 → 5</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>k boyutlu min-heap.</p></details></li>
+    <li><label><input type="checkbox" id="k10-2"> <span><b>2. En sık k eleman</b> · En sık geçen k elemanı bul.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[1, 1, 1, 2, 2, 3], k=2 → [1, 2]</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Dictionary ile say, sonra frekansa göre k boyutlu min-heap.</p></details></li>
+    <li><label><input type="checkbox" id="k10-3"> <span><b>3. Başlangıca en yakın k nokta</b> · Düzlemdeki noktalardan orijine en yakın k tanesi.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[[1,3], [−2,2]], k=1 → [[−2,2]]</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Karekök almana gerek yok, x² + y² karşılaştır.</p></details></li>
+    <li><label><input type="checkbox" id="k10-4"> <span><b>4. Aralıkları birleştir</b> · Çakışan aralıkları birleştir.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[[1,3], [2,6], [8,10]] → [[1,6], [8,10]]</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Başlangıca göre sırala. Bir sonraki, mevcudun sonundan önce başlıyorsa birleştir.</p></details></li>
+    <li><label><input type="checkbox" id="k10-5"> <span><b>5. Toplantılara katılabilir mi?</b> · Toplantı aralıkları çakışıyor mu?<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[[0,30], [5,10]] → false</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Sırala, ardışıkları karşılaştır.</p></details></li>
+    <li><label><input type="checkbox" id="k10-6"> <span><b>6. Hisse alım satımı</b> · Bir kez al, bir kez sat. En yüksek kâr.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[7, 1, 5, 3, 6, 4] → 5</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>O ana kadarki en düşük fiyatı tut. Tek geçiş.</p></details></li>
+    <li><label><input type="checkbox" id="k10-7"> <span><b>7. Zıplama oyunu</b> · Her eleman o noktadan en fazla kaç adım zıplanabileceğini gösterir. Sona ulaşılabilir mi?<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[2, 3, 1, 1, 4] → true · [3, 2, 1, 0, 4] → false</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Ulaşabildiğin en uzak noktayı takip et.</p></details></li>
+    <li><label><input type="checkbox" id="k10-8"> <span><b>8. Para üstü (greedy)</b> · 1, 5, 10, 25 kuruşluk paralarla en az sayıda bozuk para.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">63 → 6 (25+25+10+1+1+1)</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Her zaman en büyüğünü al. Ama [1, 3, 4] paralarıyla 6 için yanlış sonuç verir. Neden? (Kademe 12'de doğrusu)</p></details></li>
+  </ul>
+</section>
+<section id="k11">
+  <h2>Kademe 11 · Graflar</h2>
+  <p class="lead">Önerilen zaman: 5. ay · 8 soru</p>
+  <p class="basit">Graf, düğümler ve aralarındaki bağlantılardır: şehirler ve yollar, kullanıcılar ve arkadaşlıklar, dersler ve ön koşullar. Neredeyse her graf sorusu iki gezinme yönteminden biriyle çözülür: <b>BFS</b> (Queue, seviye seviye, ağırlıksız en kısa yol) ve <b>DFS</b> (recursion ya da Stack, derinlemesine). Grid (2D dizi) soruları da aslında graf sorusudur.</p>
+  <h3>Şablon</h3>
+  <pre><code>var komsu = new Dictionary&lt;int, List&lt;int&gt;&gt;();   // komşuluk listesi
+var ziyaret = new HashSet&lt;int&gt;();
+var q = new Queue&lt;int&gt;();
+q.Enqueue(bas); ziyaret.Add(bas);
+while (q.Count &gt; 0)
+{
+    int d = q.Dequeue();
+    foreach (int k in komsu[d])
+        if (ziyaret.Add(k)) q.Enqueue(k);
+}</code></pre>
+  <h3>Sorular</h3>
+  <ul class="yapilacak">
+    <li><label><input type="checkbox" id="k11-1"> <span><b>1. Komşuluk listesi kur</b> · Kenar listesinden ([[0,1], [1,2]]) yönsüz bir graf için komşuluk listesi oluştur.</span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Her kenarı iki yönde ekle.</p></details></li>
+    <li><label><input type="checkbox" id="k11-2"> <span><b>2. BFS ve DFS</b> · Aynı grafı iki yöntemle gez ve ziyaret sırasını yazdır.</span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>BFS: Queue. DFS: recursion ya da Stack. Ziyaret edilenleri HashSet'te tut.</p></details></li>
+    <li><label><input type="checkbox" id="k11-3"> <span><b>3. İki düğüm arasında yol var mı?</b> · Başlangıçtan hedefe bir yol var mı?</span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>BFS ya da DFS, hedefi görünce dur.</p></details></li>
+    <li><label><input type="checkbox" id="k11-4"> <span><b>4. Ada sayısı</b> · 1'lerin kara, 0'ların su olduğu bir grid'de kaç ada var?<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[[1,1,0],[0,1,0],[0,0,1]] → 2</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Her ziyaret edilmemiş 1'den DFS başlat ve sayacı artır. 4 yön.</p></details></li>
+    <li><label><input type="checkbox" id="k11-5"> <span><b>5. Bağlı bileşen sayısı</b> · Yönsüz bir grafta kaç bağlı bileşen var?</span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Ada sayısının graf versiyonu.</p></details></li>
+    <li><label><input type="checkbox" id="k11-6"> <span><b>6. Grid'de en kısa yol</b> · Engelli bir grid'de sol üstten sağ alta en kısa adım sayısı.</span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>BFS, çünkü ağırlıksız. Her seviye bir adım.</p></details></li>
+    <li><label><input type="checkbox" id="k11-7"> <span><b>7. Ders sıralaması (topolojik sıralama)</b> · Ön koşullarıyla verilen dersler hangi sırayla alınabilir? Döngü varsa imkânsız.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">2 ders, [[1,0]] → [0, 1]</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Her dersin giriş derecesini say. Derecesi 0 olanları Queue'ya al (Kahn algoritması).</p></details></li>
+    <li><label><input type="checkbox" id="k11-8"> <span><b>8. Döngü var mı?</b> · Yönlü bir grafta döngü var mı?</span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>Topolojik sıralama tüm düğümleri içermiyorsa döngü vardır.</p></details></li>
+  </ul>
+</section>
+<section id="k12">
+  <h2>Kademe 12 · Dynamic programming</h2>
+  <p class="lead">Önerilen zaman: 6. ay · 10 soru</p>
+  <p class="basit">DP, büyük bir problemi tekrar eden küçük alt problemlere bölüp her birinin sonucunu bir kez hesaplayıp saklamaktır. Kademe 7'deki memoization'lı Fibonacci aslında ilk DP sorundu. Her DP sorusunda üç soruyu cevapla: <b>Durum ne?</b> (dp[i] neyi temsil ediyor), <b>Geçiş ne?</b> (dp[i] öncekilerden nasıl hesaplanır), <b>Başlangıç ne?</b> (dp[0]).</p>
+  <h3>Şablon</h3>
+  <pre><code>int[] dp = new int[n + 1];
+dp[0] = 1;                          // başlangıç
+for (int i = 1; i &lt;= n; i++)
+    dp[i] = /* dp[i-1], dp[i-2] ... */;   // geçiş
+return dp[n];</code></pre>
+  <h3>Sorular</h3>
+  <ul class="yapilacak">
+    <li><label><input type="checkbox" id="k12-1"> <span><b>1. Merdiven çıkma</b> · Her seferinde 1 ya da 2 basamak. n basamağa kaç farklı yolla çıkılır?<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">3 → 3</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>dp[i] = dp[i−1] + dp[i−2]. Bu Fibonacci.</p></details></li>
+    <li><label><input type="checkbox" id="k12-2"> <span><b>2. En az maliyetle merdiven</b> · Her basamağın bir maliyeti var. Tepeye en az maliyet.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[10, 15, 20] → 15</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>dp[i] = maliyet[i] + min(dp[i−1], dp[i−2]).</p></details></li>
+    <li><label><input type="checkbox" id="k12-3"> <span><b>3. Ev soygunu</b> · Yan yana iki evi soyamazsın. En fazla ne kadar toplanır?<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[2, 7, 9, 3, 1] → 12</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>dp[i] = max(dp[i−1], dp[i−2] + d[i]). Bu evi soy ya da soyma.</p></details></li>
+    <li><label><input type="checkbox" id="k12-4"> <span><b>4. Grid yolları</b> · m×n grid'de sadece sağa ve aşağı giderek kaç farklı yol var?<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">3×7 → 28</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>dp[i, j] = dp[i−1, j] + dp[i, j−1].</p></details></li>
+    <li><label><input type="checkbox" id="k12-5"> <span><b>5. Para üstü (DP)</b> · Verilen paralarla bir tutarı oluşturmak için en az kaç para gerekir? Kademe 10'daki greedy'nin yanıldığı durum.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[1, 3, 4], 6 → 2 (3 + 3)</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>dp[t] = 1 + min(dp[t − para]). Ulaşılamayanlar sonsuz.</p></details></li>
+    <li><label><input type="checkbox" id="k12-6"> <span><b>6. Kelime bölme</b> · Bir metin, sözlükteki kelimelere bölünebilir mi?<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">"kodyaz", [kod, yaz] → true</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>dp[i]: ilk i karakter bölünebilir mi? Her j &lt; i için dp[j] ve s[j..i] sözlükte mi?</p></details></li>
+    <li><label><input type="checkbox" id="k12-7"> <span><b>7. En uzun artan alt dizi</b> · Kesintili olabilen, kesin artan en uzun alt dizinin uzunluğu.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">[10, 9, 2, 5, 3, 7, 101, 18] → 4</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>dp[i]: i'de biten en uzun. Her j &lt; i ve d[j] &lt; d[i] için. O(n²).</p></details></li>
+    <li><label><input type="checkbox" id="k12-8"> <span><b>8. En uzun ortak alt dizi (LCS)</b> · İki string'in en uzun ortak alt dizisinin uzunluğu.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">"abcde", "ace" → 3</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>2D dp. Harfler eşitse çapraz + 1, değilse üst ve sol'un büyüğü.</p></details></li>
+    <li><label><input type="checkbox" id="k12-9"> <span><b>9. 0/1 sırt çantası</b> · Ağırlık ve değerleri verilen eşyalardan, kapasiteyi aşmadan en yüksek değer.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">ağırlık [1, 3, 4], değer [15, 20, 30], kapasite 4 → 35</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>dp[i, w]: ilk i eşya, w kapasite. Al ya da alma.</p></details></li>
+    <li><label><input type="checkbox" id="k12-10"> <span><b>10. Düzenleme mesafesi (ileri)</b> · Bir kelimeyi diğerine çevirmek için gereken en az ekleme, silme ve değiştirme sayısı.<br><span style="font-family:var(--font-mono);font-size:14px;color:var(--ink-soft)">"kitten", "sitting" → 3</span></span></label>
+      <details style="margin:6px 0 0 32px"><summary>İpucu</summary><p>LCS'e benzer 2D dp, üç seçeneğin minimumu.</p></details></li>
+  </ul>
+</section>
+<section id="son">
+  <h2>Bitirdikten sonra</h2>
+  <p>Bu 120 soru mülakatlarda karşına çıkacak kalıpların büyük çoğunluğunu kapsıyor. Bitirdiğinde LeetCode'da "NeetCode 150" ya da "Blind 75" listelerinden çözmediklerine geçebilirsin. Bu listeler aynı kalıplar üzerine kurulu, yani artık yabancı gelmeyecekler.</p>
+  <p id="ilerleme" class="say" style="margin-top:8px"></p>
+</section>
+<footer>Her gün bir soru · Köpekbalığı yüzer</footer>
+</main>
+<script src="/app.js" defer></script>
+</body>
+</html>
