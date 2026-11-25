@@ -17,7 +17,7 @@
 
 ### 2. D1 veritabanı
 1. Cloudflare panel → **Storage & Databases → D1** → **Create database**.
-2. Ad: `algoritma-antrenmani`. Location: **Eastern Europe**.
+2. Ad: `algoritmalar`. Location: **Eastern Europe**.
 3. Oluşan veritabanının **Database ID** değerini kopyala.
 4. GitHub'da `wrangler.jsonc` dosyasını aç, `"database_id"` satırındaki sıfırları bu ID ile değiştir, commit et.
    (Database ID gizli bilgi değildir, repoda durabilir.)
@@ -27,7 +27,7 @@ Tablolar elle kurulmaz; Worker ilk istekte kendisi oluşturur.
 ### 3. Worker'ı bağla
 1. **Workers & Pages → Create → Import a repository**.
 2. GitHub'ı bağla, repoyu seç.
-3. Proje adı: **`algoritma-antrenmani`** (`wrangler.jsonc` içindeki `"name"` ile aynı olmalı).
+3. Proje adı: **`algoritmalar`** (`wrangler.jsonc` içindeki `"name"` ile aynı olmalı).
 4. Build command: boş bırak. Deploy command: `npx wrangler deploy`. Root directory: `/` (boş).
 5. **Deploy**. Bundan sonra her push otomatik yayınlanır.
 6. Worker → Settings → **Build** → **Build watch paths**: Include `*`, Exclude `solutions/*`. Böylece web sayfasından atılan çözüm commit'leri gereksiz yere yeniden yayın başlatmaz.
@@ -39,7 +39,7 @@ Tablolar elle kurulmaz; Worker ilk istekte kendisi oluşturur.
 > Düz **Variable** (Text) kullanma: panelden eklenen düz değişkenler her git yayınında silinir. Secret kalıcıdır.
 
 ### 5. Hesabını oluştur
-1. Worker adresini aç (`https://algoritma-antrenmani.<hesabın>.workers.dev`).
+1. Worker adresini aç (`https://algoritmalar.<hesabın>.workers.dev`).
 2. Ekran **İlk kurulum** modunda açılır: kurulum kodu + e-posta + şifre (en az 8 karakter, harf + rakam).
 3. Hesap oluşunca kurulum kalıcı olarak kapanır (409). İstersen `KURULUM_KODU` Secret'ını artık silebilirsin.
 
